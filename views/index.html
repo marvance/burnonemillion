@@ -1,0 +1,326 @@
+<html>
+<head>
+	<title>Burn One Million (Words)</title>
+	<link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+	<link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Cutive+Mono" rel="stylesheet">
+	<link link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Crimson+Text" rel="stylesheet">
+
+	<link rel='stylesheet', href='/stylesheets/fire.css'>
+	<link rel='stylesheet', href='/stylesheets/style.css'>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
+</head>
+<body>
+<!-- 	<h1 class="fire">
+		<div class="red">J</div>
+		<div class="orange">E</div>
+		<div class="yellow">N</div>
+		<div class="green">N</div>
+		<div class="blue">I</div>
+		<div class="violet">F</div>
+		<div class="red">E</div>
+		<div class="orange">R</div>
+		<div class="yellow">C</div>
+		<div class="green">O</div>
+		<div class="blue">L</div>
+		<div class="violet">T</div>
+		<div class="red">O</div>
+		<div class="orange">N</div>
+	</h1> -->
+
+<div id="burn">
+<div class="container">
+		<div class="overlay" v-if="overlay" v-cloak v-on:click="hideOverlay($event)">
+			<div class="su-panel" v-on:click.stop="doNothing()">
+				<a href="#" class="x" v-on:click="hideOverlay($event)">X</a>
+				<form class="su-form" v-on:submit="signUp(signIn, $event)" v-show="showSignup">
+					<h2>Sign Up</h2>
+					<input class="name" v-model="signIn.name" placeholder="Your Name"required type="text">
+					<input class="username" v-model="signIn.username" placeholder="username" required type="text">
+					<input class="password" v-model="signIn.password" placeholder="password" required type="password">
+					<input type="submit" class="button" value="submit">
+				</form>
+				<form class="su-form li-form" v-on:submit="logIn(signIn, $event)" v-show="!showSignup">
+					<h2>Log In</h2>
+					<input class="username" placeholder="username" v-model="signIn.username" required type="text">
+					<input class="password" placeholder="password" v-model="signIn.password" required type="password">
+					<input type="submit" class="button" value="submit">
+				</form>
+				
+				<a href="#" class="text-right" v-on:click="toggleForm()"><h3>{{message}}</h3></a>
+			</div>
+		</div>
+	<!-- </div> -->
+
+
+<!-- Container-left technically goes here -->
+
+
+<div class="container-center">
+	<div class="logo-container">
+		<h1 v-model="logo" class="logo fire">{{logo}}</h1>
+		<div class="ash ash-1"></div>
+		<div class="ash ash-2"></div>
+		<div class="ash ash-3"></div>
+		<div class="ash ash-4"></div>
+		<div class="ash ash-5"></div>
+		<div class="ash ash-6"></div>
+		<div class="ash ash-7"></div>
+		<div class="ash ash-8"></div>
+		<div class="ash ash-9"></div>
+		<div class="ash ash-10"></div>
+		<div class="ash ash-11"></div>
+		<div class="ash ash-12"></div>
+		<div class="ash ash-13"></div>
+		<div class="ash ash-14"></div>
+		<div class="ash ash-15"></div>
+		<div class="ash ash-16"></div>
+		<div class="ash ash-17"></div>
+		<div class="ash ash-18"></div>
+	</div>
+
+	<div v-if="!loggedIn" class="copy">
+		<p>Your first million words don't count.</p>
+		<p>-Ray Bradbury</p>
+		<p>Assume that you have a million words inside you that are absolute rubbish and you need to get them out before you get to the good ones.</p>
+		<p>-Neil Gaiman</p>
+		<p>My advice to the young writer is likely to be unpalatable in an age of instant successes and meteoric falls. I tell the neophyte: Write a million words–the absolute best you can write, then throw it all away and bravely turn your back on what you have written. At that point, you’re ready to begin.</p>
+		<p>-David Eddings</p>
+
+	</div>
+
+	<div v-if="loggedIn" class="totalDisplay" id="allTimeTotal"><span class="small">Total:</span><span class="center">{{stats.allTimeTotal}}</span></div>
+	<h2 class="count-form-label">{{addingMessage}}</h2>
+	<div class="center-form" v-if="!addingGoal">
+		<form id="countForm" v-on:submit="submitCount(count, $event)">
+			<input type="number" name="numwds" required v-model="count.words" placeholder="Enter Count">
+			<input type="date" name="date" required v-model="count.date" id="countDate" v-bind:min="countMin" v-bind:max="countMax">
+			<button type="submit" class="button">Submit</button>
+		</form>
+		<div class="count-form-overlay" v-if="!loggedIn">
+			<a href="#" v-on:click="showOverlay($event)">Log in to add count</a>
+		</div>
+		<a href="#" v-if="loggedIn" v-on:click="showGoalForm($event)"><h3>{{addingLinkText}}</h3></a>
+	</div>
+
+	<div class="center-form" v-if="addingGoal">
+		
+		<form v-on:submit="submitGoal(goal, $event)" id="goalForm" v-if="addingGoal">
+			<input type="number" name="goalWds" required placeholder="Enter Goal" v-model="goal.words">
+			<input type="date" name="goalDate" required v-model="goal.date" id="goalDate" v-bind:min="goalMin">
+			<button type="submit" class="button">Submit</button>
+		</form>
+		<a v-if="loggedIn" href="#" v-on:click="showCountForm($event)"><h3>{{addingLinkText}}</h3></a>
+	</div>
+
+	
+
+	<div v-if="submittedGoal" class="wpd">Words Per Day You Must Write to Meet Goal: <span>{{stats.goalWordsPerDay}}</span> </div>
+
+	<form name="monthform" class="month-form" v-if="loggedIn">
+		<label for="selectmonth">Choose Month to View Stats:</label>
+		<select name="month" id="selectmonth" v-model.number="selectedMonth" v-on:change="selectMonth()">
+			<option disabled value="">select month</option>
+			<option value="0">January</option>
+			<option value="1">February</option>
+			<option value="2">March</option>
+			<option value="3">April</option>
+			<option value="4">May</option>
+			<option value="5">June</option>
+			<option value="6">July</option>
+			<option value="7">August</option>
+			<option value="8">September</option>
+			<option value="9">October</option>
+			<option value="10">November</option>
+			<option value="11">December</option>
+		</select>
+	</form>
+
+	<div class="stats">
+
+		<div v-if="loggedIn">
+
+			<div class="a">
+				<h2>All Time Data</h2>
+				<div class="bubble">
+					<h4>Total:</h4>
+					<h3>{{stats.allTimeTotal}}</h3>
+				</div>
+
+
+				<div class="bubble">
+					<h4>Daily Average:</h4>
+					<h3>{{stats.allTimeAverage}}</h3>
+				</div>
+
+				<div class="bubble">
+					<h4>Most productive date:</h4>
+					<h3>{{stats.allTimeMostProductiveDate.date}}</h3>
+					<h3>{{stats.allTimeMostProductiveDate.words}} words</h3>
+				</div>
+
+				<div class="bubble">
+					<h4>Most productive day of week:</h4>
+					<h3>{{stats.allTimeMostProductiveDay}}</h3>
+				</div>
+			</div>
+			<div class="b">
+				<h2>Month Data</h2>
+
+				<div class="bubble">
+					<h4>Total:</h4>
+					<h3>{{stats.monthTotal}}</h3>
+				</div>
+
+				<div class="bubble">
+					<h4>Daily average:</h4>
+					<h3>{{stats.monthAverage}}</h3>
+				</div>
+
+
+				<div class="bubble">
+					<h4>Most productive date:</h4>
+					<h3>{{stats.monthMostProductiveDate.date}}</h3>
+					<h3>{{stats.monthMostProductiveDate.words}} words</h3>
+				</div>
+
+				<div class="bubble">
+					<h4>Most productive day of week:</h4>
+					<h3>{{stats.monthMostProductiveDay}}</h3>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+
+<div class="container-right">
+
+	<!-- <a href="/checkout">Checkout</a> -->
+
+	<a href="#" v-on:click="showOverlay($event)" v-if="!loggedIn"><h3 class="login-link">login/signup</h3></a>
+
+	<a href="/logout" v-if="loggedIn"><h3 class="login-link">logout</h3></a>
+
+	<h2 v-if="!loggedIn">Featured Author:</h2>
+	<div class="profile-dashboard">
+
+		<img v-bind:src="famousPhoto" class="profile-photo" v-cloak v-if="!loggedIn">
+
+		<img v-bind:src="userPhoto" class="profile-photo" v-cloak v-if="loggedIn">
+
+
+		<div v-if="editingProfile" v-cloak>
+			<div class="profile-form">
+				<form id="profileForm" enctype="multipart/form-data" v-on:submit="submitProfile(profile, $event)">
+					
+					<input type="text" name="name" placeholder="Your Name" required class="profile-input" v-model="profile.name">
+					<input type="text" name="genre" placeholder="Genre" required class="profile-input" v-model="profile.genre">
+					<textarea name="bio" placeholder="Author Bio" v-model="profile.bio"></textarea >
+					<div class="profile-float">
+						<label for="photo">Add Photo</label>
+						<input type="file" name="photo" id="photo" placeholder="upload photo" accept="image/*" id="inputPhoto" v-model="profile.photo">
+					</div>
+					<button type="submit" class="button">Submit</button>
+				</form>
+			</div>
+			<a href="#" v-on:click="closeProfileForm($event)" class="close-link">Close</a>
+		</div>
+
+<!-- submittedProfile var can prob be changed to loggedIn?? -->
+		<div class="profile-view" v-if="submittedProfile">
+
+			<h2>{{profile.name}}</h2>
+			<h3>Genre: <span>{{profile.genre}}</span></h3>
+			<p>{{profile.bio}}</p>
+			<button v-if="loggedIn" id="editProfile" class="button" v-on:click="editProfile($event)">Edit Profile</button>
+
+		</div>
+	</div>
+	<h3 class="badges-label" v-if="loggedIn">Badges</h3>
+	<ul v-if="loggedIn" class="badge-bucket">
+		<li v-for="badge in badges" class="badge-single">
+			<h3 class="badge-title">{{badge.title}}</h3>
+			<p class="badge-summary">{{badge.summary}}</p>
+			<img v-bind:src="badge.img" class="badge-img">
+		</li>
+	</ul>
+
+
+
+<!-- Close container-right -->
+</div>
+
+
+
+<div class="container-left">
+	
+	<h3 class="top">You May Know</h3>
+	<ul class="follow-bucket">
+		<li class="follow-single" v-for="person in youMayKnow">
+			<div class="float-left">
+				<img v-bind:src="person.photo" class="follow-single-photo">
+				<button v-if="loggedIn" v-on:click="addFriend(person, $event)" class="button followButton">Follow</button>
+			</div>
+			<div class="float-right">
+				<h4 class="follow-single-name">{{person.name}}</h4>
+				<h5>{{person.genre}}</h5>
+				<h6>{{person.bio}}</h6>
+
+			</div>
+
+			
+		</li>
+
+	</ul>	
+
+	<ul id="feed" class="feed famousFeed">
+		<li v-for="(item, index) in announcements.slice(0,5)" v-bind:key="item.id" class="fade-in">{{item.text}}</li>
+	</ul>
+
+	<h3 v-if="loggedIn">Friends</h3>
+	<ul v-if="loggedIn" class="follow-bucket">
+		<li class="background follow-single" v-for="friend in friends">
+			<div class="float-left">
+				<img v-bind:src="friend.photo" class="follow-single-photo">
+				<h6>Total:</h6>
+				<h5>{{friend.total}}</h5>
+			</div>
+			<div class="float-right">
+				<h4 class="follow-single-name">{{friend.name}}</h4>
+				<h5>{{friend.genre}}</h5>
+				<h6>{{friend.bio}}</h6>
+			</div>
+		</li>
+	</ul>
+
+</div>
+
+
+
+
+
+
+<!-- End class="container" -->
+</div>
+<!-- End id="burn" -->
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script type="text/javascript" src="javascripts/main.js"></script>
+
+</body>
+</html>

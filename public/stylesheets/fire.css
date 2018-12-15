@@ -1,0 +1,94 @@
+.fire {
+	animation: flame 2s ease 4s alternate, extinguish 1s linear 6s forwards;
+	padding-top: 75px;
+	font-family: 'Special Elite', cursive;
+	font-size: 48px;
+	margin: 0 auto;
+	white-space: nowrap;
+	overflow: hidden;
+	/*width: 486px;*/
+	text-decoration: none;    
+}
+
+@keyframes flame {
+	from { text-shadow: -.05em 0 .15em #fefcc9, .05em -.05em .15em #feec85, -.1em -.1em .2em #ffae34, .1em -.15em .15em #ec760c, -.1em -.2em .2em #cd4606, ..5em -.25em .35em #973716, .05em -.35em .35em #451b0e; }
+	45%  { text-shadow: .05em -.1em .25em #fefcc9, .075em 0 .2em #feec85, -.05em -.125em .25em #ffae34, .075em -.225em .25em #ec760c, -.05em -.25em .3em #cd4606, 0 -.4em .3em #973716, .1em -.5em .4em #451b0e; }
+	70%  { text-shadow: -.05em 0 .15em #fefcc9, .05em -.05em .15em #feec85, -.1em -.1em .3em #ffae34, .1em -.15em .2em #ec760c, -.1em -.2em .35em #cd4606, .05em -.25em .35em #973716, .05em -.35em .45em #451b0e; }
+	to   { text-shadow: -.05em -.1em .3em #fefcc9, -.075em 0 .3em #feec85, .05em -.125em .3em #ffae34, -.075em -.225em .25em #ec760c, .05em -.25em .6em #cd4606, 0 -.4em .3em #973716, -.1em -.5em .4em #451b0e; }						
+}
+
+@keyframes extinguish {
+	to {
+		color: white;
+		text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+	}
+}
+
+.red {
+	animation: turnred 2s linear 7s forwards;
+}
+
+.orange {
+	animation: turnorange 2s linear 8s forwards;
+}
+
+.yellow {
+	animation: turnyellow 2s linear 9s forwards;
+}
+
+.green {
+	animation: turngreen 2s linear 10s forwards;
+}
+
+.blue {
+	animation: turnblue 2s linear 11s forwards;
+}
+
+.violet {
+	animation: turnviolet 2s linear 12s forwards;
+}
+
+
+@keyframes turnred {
+	to {
+		color: red;
+	}
+}
+
+@keyframes turnorange {
+	to {
+		color: orange;
+	}
+}
+
+@keyframes turnyellow {
+	to {
+		color: yellow;
+	}
+}
+
+@keyframes turngreen {
+	to {
+		color: green;
+	}
+}
+
+@keyframes turnblue {
+	to {
+		color: blue;
+	}
+}
+
+@keyframes turnviolet {
+	to {
+		color: purple;
+	}
+}
+
+
+@keyframes type{ 
+	from { width: 0; } 
+}
+
+
+
