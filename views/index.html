@@ -96,7 +96,9 @@
 	<div class="center-form" v-if="!addingGoal">
 		<form id="countForm" v-on:submit="submitCount(count, $event)">
 			<input type="number" name="numwds" required v-model="count.words" placeholder="Enter Count">
+			<input type="number" step="0.01" name="duration" v-model="count.duration" placeholder="How many hours did it take?">
 			<input type="date" name="date" required v-model="count.date" id="countDate" v-bind:min="countMin" v-bind:max="countMax">
+			<input type="text" name="project" v-model="count.project" placeholder="Which project were you working on?">
 			<button type="submit" class="button">Submit</button>
 		</form>
 		<div class="count-form-overlay" v-if="!loggedIn">
@@ -194,15 +196,6 @@
 
 		</div>
 	</div>
-
-
-
-
-
-
-
-
-
 </div>
 
 

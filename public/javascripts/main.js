@@ -1,4 +1,3 @@
-
 var vm = new Vue({
 	el: "#burn",
 	data: {
@@ -26,7 +25,9 @@ var vm = new Vue({
 		},
 		count: {
 			words: "",
-			date: ""
+			date: "",
+			project: "",
+			duration: ""
 		},
 		goal: {
 			words: "",
@@ -106,8 +107,11 @@ var vm = new Vue({
 			event.preventDefault()
 			var formData = {
 				words: parseInt(data.words),
-				date: new Date(data.date)
+				date: new Date(data.date),
+				duration: parseFloat(data.duration),
+				project: data.project
 			}
+			console.log(formData)
 			$.ajax({
 				url: "/addcount",
 				type: "POST",
@@ -130,6 +134,8 @@ var vm = new Vue({
 						})
 						this.count.words = ""
 						this.count.date = ""
+						this.count.duration = ""
+						this.count.project = ""
 						this.submittedCount = true
 						this.submittedGoal = false
 						if(data.badges !== this.badges){
