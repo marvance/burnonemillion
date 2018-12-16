@@ -286,7 +286,9 @@ app.post("/addcount", function(req,res){
             }
             count = {
                 date: req.body.date,
-                words: req.body.words
+                words: req.body.words,
+                project: req.body.project,
+                duration: req.body.duration
             }
             user.counts.push(count)
             user.save()

@@ -14,7 +14,9 @@ var UltimateSchema = new mongoose.Schema({
 	photo: String,
 	counts: [{
 		date: Date,
-		words: Number
+		words: Number,
+		project: String,
+		duration: Number
 	}],
 	goal: {
 		date: Date,

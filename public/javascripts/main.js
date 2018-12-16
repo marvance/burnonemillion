@@ -132,6 +132,8 @@ var vm = new Vue({
 							text: announcement,
 							id: identification
 						})
+						console.log(this.userCounts, formData.project)
+						this.calcProjectTotal(this.userCounts, formData.project)
 						this.count.words = ""
 						this.count.date = ""
 						this.count.duration = ""
@@ -141,6 +143,8 @@ var vm = new Vue({
 						if(data.badges !== this.badges){
 							this.announceBadge(this.renderBadges(data))
 						}
+
+
 											
 					}
 
@@ -340,6 +344,34 @@ var vm = new Vue({
 			return (total / daysBetween).toFixed(0)
 		},
 		//END Count Functions
+		//BEGIN Project Functions
+		//groupBy helper function
+		groupBy: function(arrayOfObjects, projectName){
+			singleProjectCounts = []
+			for(var i=0; i < arrayOfObjects.length; i++){
+				Object.keys(arrayOfObjects[i]).forEach(function(k){
+					if (arrayOfObjects[i][k] === projectName) {
+						singleProjectCounts.push(arrayOfObjects[i])
+					}
+				})
+			}
+			return singleProjectCounts;
+		},
+
+		calcProjectTotal: function(countsArray, nameOfProject){
+			projectTotal = 0;
+			var countsWithProjects = countsArray.filter(function(item){
+				return item.project
+			})
+			var sameProjects = this.groupBy(countsWithProjects, nameOfProject)
+			for(var i = 0; i < sameProjects.length; i++){
+				projectTotal += sameProjects[i].words
+			}
+			console.log(nameOfProject, " has ", projectTotal, " words written so far.")
+			return projectTotal;
+		},
+
+		//END Project Functions
 		//BEGIN Goal Functions
 		submitGoal: function(data, event){
 			event.preventDefault()
