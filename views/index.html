@@ -194,7 +194,14 @@
 				</div>
 			</div>
 
+
 		</div>
+
+		<ul class="project-data">
+			<li v-for="proj in projectCounts">
+				<div>{{proj.name}} :<span>{{proj.total}}</span></div>
+			</li>
+		</ul>
 	</div>
 </div>
 

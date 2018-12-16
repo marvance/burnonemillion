@@ -29,6 +29,11 @@ var vm = new Vue({
 			project: "",
 			duration: ""
 		},
+		projectCounts: [],
+		project: {
+			name: "",
+			total: 0
+		},
 		goal: {
 			words: "",
 			date: ""
@@ -132,8 +137,20 @@ var vm = new Vue({
 							text: announcement,
 							id: identification
 						})
+						//move project calcs to runCalcs functions later, maybe
+						console.log("begin proj")
 						console.log(this.userCounts, formData.project)
-						this.calcProjectTotal(this.userCounts, formData.project)
+						var projTotal = this.calcProjectTotal(this.userCounts, formData.project)
+						console.log(projTotal)
+						this.project = {
+							name: formData.project,
+							total: projTotal
+						}
+						console.log("Project: ", this.project)
+						this.projectCounts.push(this.project)
+						console.log(this.projectCounts)
+						// this.project.name = ""
+						// this.project.total = 0
 						this.count.words = ""
 						this.count.date = ""
 						this.count.duration = ""
