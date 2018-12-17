@@ -149,6 +149,7 @@ var vm = new Vue({
 						console.log("Project: ", this.project)
 						this.projectCounts.push(this.project)
 						console.log(this.projectCounts)
+						console.log(this.calcSpeed(this.userCounts))
 						// this.project.name = ""
 						// this.project.total = 0
 						this.count.words = ""
@@ -389,6 +390,23 @@ var vm = new Vue({
 		},
 
 		//END Project Functions
+		//BEGIN Speed Functions
+		calcSpeed: function(countsArray){
+			timedWritings = []
+			timedWordCount = 0
+			timedWordHours = 0
+			for(var i=0; i < countsArray.length; i++){
+				if (countsArray[i].duration > 0){
+					timedWordHours += countsArray[i].duration
+					timedWordCount += countsArray[i].words
+				}
+			}
+			wordsPerHour = parseFloat(timedWordCount / timedWordHours)
+			console.log(wordsPerHour)
+			wphRoundedToPointFive = Math.round(wordsPerHour*2)/2;
+			return wphRoundedToPointFive
+		},
+		//END Speed Functions
 		//BEGIN Goal Functions
 		submitGoal: function(data, event){
 			event.preventDefault()
